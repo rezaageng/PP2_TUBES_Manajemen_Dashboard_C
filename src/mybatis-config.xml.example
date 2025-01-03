@@ -16,5 +16,6 @@
     </environments>
     <mappers>
         <mapper class="model.TrashMapper"/>
+        <mapper class="model.CourierMapper"/>
     </mappers>
 </configuration>
