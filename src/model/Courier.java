@@ -37,4 +37,9 @@ public class Courier {
     public void setTotal(int total) {
         this.total = total;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -17,5 +17,7 @@
     <mappers>
         <mapper class="model.TrashMapper"/>
         <mapper class="model.CourierMapper"/>
+        <mapper class="model.UserMapper"/>
+        <mapper class="model.HistoryMapper"/>
     </mappers>
 </configuration>
