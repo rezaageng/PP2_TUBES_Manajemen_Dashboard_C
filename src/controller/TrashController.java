@@ -55,7 +55,7 @@ public class TrashController {
             view.setPointTotal(pointTotal);
         } catch (Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(view, "Failed to get players");
+            JOptionPane.showMessageDialog(view, "Failed to get Trash data");
         }
     }
 
@@ -104,10 +104,21 @@ public class TrashController {
             int point = total * 100;
             int idDropbox = view.getSelectedDropboxId();
 
-            if (categoryName.isEmpty() || total == 0 || idDropbox == -1) {
-                JOptionPane.showMessageDialog(view, "Please fill all fields");
+            if (categoryName.isEmpty()) {
+                JOptionPane.showMessageDialog(view, "Please fill category name");
                 return;
             }
+
+            if (total == 0) {
+                JOptionPane.showMessageDialog(view, "Please fill total");
+                return;
+            }
+
+            if (idDropbox == -1) {
+                JOptionPane.showMessageDialog(view, "Please select a dropbox");
+                return;
+            }
+
 
             Trash trash = new Trash();
             trash.setCategoryName(categoryName);
@@ -137,8 +148,23 @@ public class TrashController {
             int point = total * 100;
             int idDropbox = view.getSelectedDropboxId();
 
-            if (id == -1 || categoryName.isEmpty() || total == 0 || idDropbox == -1) {
-                JOptionPane.showMessageDialog(view, "Please select a row and fill all fields");
+            if (id == -1) {
+                JOptionPane.showMessageDialog(view, "Please select a row");
+                return;
+            }
+
+            if (categoryName.isEmpty()) {
+                JOptionPane.showMessageDialog(view, "Please fill category name");
+                return;
+            }
+
+            if (total == 0) {
+                JOptionPane.showMessageDialog(view, "Please fill total");
+                return;
+            }
+
+            if (idDropbox == -1) {
+                JOptionPane.showMessageDialog(view, "Please select a dropbox");
                 return;
             }
 
@@ -170,7 +196,6 @@ public class TrashController {
                 JOptionPane.showMessageDialog(view, "Please select a row");
                 return;
             }
-
 
             int response = JOptionPane.showConfirmDialog(view, "Are you sure you want to delete this record?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
             if (response != JOptionPane.YES_OPTION) {
