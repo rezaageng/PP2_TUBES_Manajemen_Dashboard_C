@@ -24,6 +24,9 @@ public class HistoryView extends JFrame {
     private final JButton addButton = new JButton("Add");
     private final JButton updateButton = new JButton("Update");
     private final JButton deleteButton = new JButton("Delete");
+    private final JButton printPreviewButton = new JButton("Print Preview");
+    private final JButton printButton = new JButton("Print");
+    private final JButton exportPdfButton = new JButton("Export to PDF");
     private boolean listenerAdded = false;
 
     public HistoryView() {
@@ -57,6 +60,9 @@ public class HistoryView extends JFrame {
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);
         buttonPanel.add(deleteButton);
+        buttonPanel.add(printPreviewButton);
+        buttonPanel.add(printButton);
+        buttonPanel.add(exportPdfButton);
 
         setLayout(new BorderLayout());
         add(inputPanel, BorderLayout.NORTH);
@@ -213,5 +219,17 @@ public class HistoryView extends JFrame {
         for (Dropbox dropbox : dropboxes) {
             dropBox.addItem(dropbox);
         }
+    }
+
+    public void addPrintPreviewButtonListener(ActionListener listener) {
+        printPreviewButton.addActionListener(listener);
+    }
+
+    public void addPrintButtonListener(ActionListener listener) {
+        printButton.addActionListener(listener);
+    }
+
+    public void addExportPdfButtonListener(ActionListener listener) {
+        exportPdfButton.addActionListener(listener);
     }
 }

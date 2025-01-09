@@ -1,5 +1,9 @@
 package controller;
 
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 import model.*;
 import org.apache.ibatis.session.SqlSession;
 import view.HistoryView;
@@ -9,6 +13,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class HistoryController {
@@ -32,6 +40,9 @@ public class HistoryController {
         view.addButtonListener(new AddButtonListener());
         view.updateButtonListener(new UpdateButtonListener());
         view.deleteButtonListener(new DeleteButtonListener());
+        view.addPrintPreviewButtonListener(new PrintPreviewButtonListener());
+        view.addPrintButtonListener(new PrintButtonListener());
+        view.addExportPdfButtonListener(new ExportPdfButtonListener());
 
         view.setListenerAdded(true);
 
@@ -246,6 +257,66 @@ public class HistoryController {
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(view, "Failed to delete History");
+            }
+        }
+    }
+
+    class PrintPreviewButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            PrinterJob job = PrinterJob.getPrinterJob();
+            job.setPrintable(view.getTable().getPrintable(JTable.PrintMode.FIT_WIDTH, null, null));
+            boolean doPrint = job.printDialog();
+            if (doPrint) {
+                try {
+                    job.print();
+                } catch (PrinterException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(view, "Failed to print preview");
+                }
+            }
+        }
+    }
+
+    class PrintButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                boolean complete = view.getTable().print(JTable.PrintMode.FIT_WIDTH, null, null);
+                if (complete) {
+                    JOptionPane.showMessageDialog(view, "Printing Complete");
+                } else {
+                    JOptionPane.showMessageDialog(view, "Printing Cancelled");
+                }
+            } catch (PrinterException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(view, "Failed to print");
+            }
+        }
+    }
+
+    class ExportPdfButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Document document = new Document();
+            try {
+                PdfWriter.getInstance(document, new FileOutputStream("history.pdf"));
+                document.open();
+                PdfPTable pdfTable = new PdfPTable(view.getTable().getColumnCount());
+                for (int i = 0; i < view.getTable().getColumnCount(); i++) {
+                    pdfTable.addCell(view.getTable().getColumnName(i));
+                }
+                for (int rows = 0; rows < view.getTable().getRowCount(); rows++) {
+                    for (int cols = 0; cols < view.getTable().getColumnCount(); cols++) {
+                        pdfTable.addCell(view.getTable().getModel().getValueAt(rows, cols).toString());
+                    }
+                }
+                document.add(pdfTable);
+                document.close();
+                JOptionPane.showMessageDialog(view, "Exported to PDF");
+            } catch (DocumentException | IOException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(view, "Failed to export to PDF");
             }
         }
     }
