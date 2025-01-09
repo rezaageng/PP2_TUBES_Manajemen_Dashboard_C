@@ -14,16 +14,17 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class HistoryView extends JFrame {
-    JTextField idField = new JTextField();
-    JTextField transactionField = new JTextField();
-    JComboBox<Courier> courierBox = new JComboBox<Courier>();
-    JComboBox<User> userBox = new JComboBox<User>();
-    JComboBox<Dropbox> dropBox = new JComboBox<Dropbox>();
-    JTextField timestampField = new JTextField();
-    JTable table = new JTable();
-    JButton addButton = new JButton("Add");
-    JButton updateButton = new JButton("Update");
-    JButton deleteButton = new JButton("Delete");
+    private final JTextField idField = new JTextField();
+    private final JTextField transactionField = new JTextField();
+    private final JComboBox<Courier> courierBox = new JComboBox<Courier>();
+    private final JComboBox<User> userBox = new JComboBox<User>();
+    private final JComboBox<Dropbox> dropBox = new JComboBox<Dropbox>();
+    private final JTextField timestampField = new JTextField();
+    private final JTable table = new JTable();
+    private final JButton addButton = new JButton("Add");
+    private final JButton updateButton = new JButton("Update");
+    private final JButton deleteButton = new JButton("Delete");
+    private boolean listenerAdded = false;
 
     public HistoryView() {
         setTitle("History Management System");
@@ -70,6 +71,14 @@ public class HistoryView extends JFrame {
                 }
             }
         });
+    }
+
+    public boolean isListenerAdded() {
+        return listenerAdded;
+    }
+
+    public void setListenerAdded(boolean listenerAdded) {
+        this.listenerAdded = listenerAdded;
     }
 
     public int getId() {

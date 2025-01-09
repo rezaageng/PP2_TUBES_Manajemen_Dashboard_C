@@ -19,6 +19,7 @@ public class CourierView extends JFrame {
     private final JButton addButton = new JButton("Add");
     private final JButton updateButton = new JButton("Update");
     private final JButton deleteButton = new JButton("Delete");
+    private boolean listenerAdded = false;
 
     public CourierView() {
         setTitle("Courier Management System");
@@ -69,6 +70,14 @@ public class CourierView extends JFrame {
                 }
             }
         });
+    }
+
+    public boolean isListenerAdded() {
+        return listenerAdded;
+    }
+
+    public void setListenerAdded(boolean listenerAdded) {
+        this.listenerAdded = listenerAdded;
     }
 
     public void addButtonListener(ActionListener listener) {

@@ -24,10 +24,13 @@ public class UserController {
 
         getAllData(session);
 
+        if (view.isListenerAdded()) return;
+
         view.addTableSelectionListener(new TableSelectionListener());
         view.addButtonListener(new AddButtonListener());
         view.updateButtonListener(new UpdateButtonListener());
         view.deleteButtonListener(new DeleteButtonListener());
+        view.setListenerAdded(true);
     }
 
     private void getAllData(SqlSession session) {
@@ -155,7 +158,7 @@ public class UserController {
             }
 
             int response = JOptionPane.showConfirmDialog(view, "Are you sure you want to delete this record?", "Confirm Deletion",
-            JOptionPane.YES_NO_OPTION);
+                    JOptionPane.YES_NO_OPTION);
             if (response != JOptionPane.YES_OPTION) {
                 return;
             }

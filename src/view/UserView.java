@@ -14,6 +14,7 @@ public class UserView extends JFrame {
     private final JButton updateButton = new JButton("Update");
     private final JButton deleteButton = new JButton("Delete");
     private final JTable table = new JTable();
+    private boolean listenerAdded = false;
 
     public UserView() {
         setTitle("User Management System");
@@ -46,6 +47,14 @@ public class UserView extends JFrame {
         add(inputPanel, BorderLayout.NORTH);
         add(dataPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    public boolean isListenerAdded() {
+        return listenerAdded;
+    }
+
+    public void setListenerAdded(boolean listenerAdded) {
+        this.listenerAdded = listenerAdded;
     }
 
     public int getId() {

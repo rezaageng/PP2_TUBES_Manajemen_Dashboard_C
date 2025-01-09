@@ -22,6 +22,7 @@ public class TrashView extends JFrame {
     private final JButton deleteButton = new JButton("Delete");
     private final JLabel trashTotal = new JLabel();
     private final JLabel pointTotal = new JLabel();
+    private boolean listenerAdded = false;
 
     public TrashView() {
         setTitle("Trash Management System");
@@ -41,7 +42,6 @@ public class TrashView extends JFrame {
 
         idField.setEditable(false);
         idField.setVisible(false);
-
 
 
         JScrollPane tablePanel = new JScrollPane(table);
@@ -71,6 +71,14 @@ public class TrashView extends JFrame {
                 }
             }
         });
+    }
+
+    public boolean getListenerAdded() {
+        return listenerAdded;
+    }
+
+    public void setListenerAdded(boolean value) {
+        listenerAdded = value;
     }
 
     public void addButtonListener(ActionListener listener) {
@@ -136,8 +144,8 @@ public class TrashView extends JFrame {
     }
 
     public int getTotal() {
-        if (totalField.getText().isEmpty()) {
-            return -1;
+        if (totalField.getText().isEmpty() || !totalField.getText().matches("[0-9]+")) {
+            return 0;
         }
         return Integer.parseInt(totalField.getText());
     }

@@ -25,8 +25,16 @@ public class HistoryController {
         loadCouriers();
         loadUsers();
         loadDropboxes();
+
+        if (view.isListenerAdded()) return;
+
         view.addTableSelectionListener(new TableSelectionListener());
-        
+        view.addButtonListener(new AddButtonListener());
+        view.updateButtonListener(new UpdateButtonListener());
+        view.deleteButtonListener(new DeleteButtonListener());
+
+        view.setListenerAdded(true);
+
     }
 
     public void getAllData(SqlSession session) {
@@ -122,27 +130,27 @@ public class HistoryController {
         }
     }
 
-    class AddButtonListener implements ActionListener{
+    class AddButtonListener implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e){
+        public void actionPerformed(ActionEvent e) {
             String transaction = view.getTransaction();
             int courierId = view.getSelectedCourierId();
             int userId = view.getSelectedUserId();
             int dropboxId = view.getSelectedDropboxId();
 
-            if(transaction.isEmpty()){
+            if (transaction.isEmpty()) {
                 JOptionPane.showMessageDialog(view, "Transaction must be filled");
                 return;
             }
-            if(courierId == -1){
+            if (courierId == -1) {
                 JOptionPane.showMessageDialog(view, "Courier ID must be Selected");
                 return;
             }
-            if(userId == -1){
+            if (userId == -1) {
                 JOptionPane.showMessageDialog(view, "User must be Selected");
                 return;
             }
-            if(dropboxId == -1){
+            if (dropboxId == -1) {
                 JOptionPane.showMessageDialog(view, "Dropbox must be selected");
                 return;
             }
@@ -154,21 +162,21 @@ public class HistoryController {
             history.setUserId(userId);
             history.setDropboxId(dropboxId);
 
-            try{
+            try {
                 historyMapper.insertHistory(history);
                 session.commit();
                 getAllData(session);
                 view.clearFields();
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(view, "Failed to add History");
             }
         }
     }
 
-    class UpdateButtonListener implements ActionListener{
+    class UpdateButtonListener implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e){
+        public void actionPerformed(ActionEvent e) {
             int id = view.getId();
             String transaction = view.getTransaction();
             int courierId = view.getSelectedCourierId();
@@ -176,60 +184,66 @@ public class HistoryController {
             int dropboxId = view.getSelectedDropboxId();
             String timestamp = view.getTimestamp();
 
-            if (id == -1){
-                JOptionPane.showMessageDialog(view, "Please Select a History");
+            if (id == -1) {
+                JOptionPane.showMessageDialog(view, "Please select a History");
                 return;
             }
-            if(transaction.isEmpty()){
+
+            if (transaction.isEmpty()) {
                 JOptionPane.showMessageDialog(view, "Transaction must be filled");
                 return;
             }
-            if(courierId == -1){
-                JOptionPane.showMessageDialog(view, "Courier ID must be Selected");
+
+            if (courierId == -1) {
+                JOptionPane.showMessageDialog(view, "Courier must be selected");
                 return;
             }
-            if(userId == -1){
-                JOptionPane.showMessageDialog(view, "User must be Selected");
+
+            if (userId == -1) {
+                JOptionPane.showMessageDialog(view, "User must be selected");
                 return;
             }
-            if(dropboxId == -1){
+
+            if (dropboxId == -1) {
                 JOptionPane.showMessageDialog(view, "Dropbox must be selected");
                 return;
             }
 
             History history = new History();
 
+            history.setId(id);
             history.setTransaction(transaction);
             history.setCourierId(courierId);
             history.setUserId(userId);
             history.setDropboxId(dropboxId);
+            history.setTimestamp(timestamp);
 
-            try{
-                historyMapper.insertHistory(history);
+            try {
+                historyMapper.updateHistory(history);
                 session.commit();
                 getAllData(session);
                 view.clearFields();
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(view, "Failed to add History");
+                JOptionPane.showMessageDialog(view, "Failed to update History");
             }
         }
     }
 
-    class DeleteButtonListener implements ActionListener{
+    class DeleteButtonListener implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e){
+        public void actionPerformed(ActionEvent e) {
             int id = view.getId();
-            if(id == -1){
+            if (id == -1) {
                 JOptionPane.showMessageDialog(view, "Please Select a row");
                 return;
             }
-            try{
+            try {
                 historyMapper.deleteHistory(id);
                 session.commit();
                 getAllData(session);
                 view.clearFields();
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(view, "Failed to delete History");
             }

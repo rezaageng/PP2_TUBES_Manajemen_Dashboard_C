@@ -24,10 +24,14 @@ public class CourierController {
 
         getAllData(session);
 
+        if (courierView.isListenerAdded()) return;
+
         courierView.addButtonListener(new AddButtonListener());
         courierView.updateButtonListener(new UpdateButtonListener());
         courierView.deleteButtonListener(new DeleteButtonListener());
         courierView.addTableSelectionListener(new TableSelectionListener());
+
+        courierView.setListenerAdded(true);
     }
 
     private void getAllData(SqlSession session) {

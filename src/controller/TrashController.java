@@ -26,10 +26,13 @@ public class TrashController {
         getAllData(session);
         loadDropbox();
 
+        if (view.getListenerAdded()) return;
+
         view.addTableSelectionListener(new TableSelectionListener());
         view.addButtonListener(new AddButtonListener());
         view.updateButtonListener(new UpdateButtonListener());
         view.deleteButtonListener(new DeleteButtonListener());
+        view.setListenerAdded(true);
     }
 
     private void getAllData(SqlSession session) {
