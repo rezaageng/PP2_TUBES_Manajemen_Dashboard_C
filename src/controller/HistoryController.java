@@ -249,6 +249,13 @@ public class HistoryController {
                 JOptionPane.showMessageDialog(view, "Please Select a row");
                 return;
             }
+
+            int response = JOptionPane.showConfirmDialog(view, "Are you sure you want to delete this record?", "Confirm Deletion",
+                    JOptionPane.YES_NO_OPTION);
+            if (response != JOptionPane.YES_OPTION) {
+                return;
+            }
+
             try {
                 historyMapper.deleteHistory(id);
                 session.commit();
